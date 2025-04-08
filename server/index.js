@@ -29,6 +29,8 @@ const corsOptions = {
   origin: ['https://authentication-rakesh-app.vercel.app'], // allow specific origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // if you need to allow cookies or auth headers
+  allowedHeaders: ['Content-Type', 'Authorization'], // specify allowed headers
+  exposedHeaders: ['Content-Length', 'X-Knowledge-Base'],
 };
 
 app.use(cors(corsOptions));
