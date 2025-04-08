@@ -17,14 +17,15 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
-app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://authentication-rakesh-app.vercel.app'); // Update with your frontend URL
+const corsOption = options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://authentication-rakesh-app.vercel.app, https://authentication-app-rakesh-mauryas-projects.vercel.app, https://authentication-app-git-main-rakesh-mauryas-projects.vercel.app'); // Update with your frontend URL
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.sendStatus(204);
 });
-app.use(cors());
+
+app.use(cors(corsOption));
 
 // api end points
 app.get('/',(req,res) => res.send("API Working"));
