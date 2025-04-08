@@ -28,3 +28,4 @@ app.use('/api/user',userRouter)
 
 app.listen(port,() => console.log(`Server started on PORT:${port}`))
 
+export default app;
