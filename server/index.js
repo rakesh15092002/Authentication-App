@@ -17,7 +17,7 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
-const corsOption = options('*', (req, res) => {
+const corsOption = app.options('*', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://authentication-rakesh-app.vercel.app, https://authentication-app-rakesh-mauryas-projects.vercel.app, https://authentication-app-git-main-rakesh-mauryas-projects.vercel.app'); // Update with your frontend URL
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
