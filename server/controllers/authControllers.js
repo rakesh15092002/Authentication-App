@@ -64,8 +64,9 @@ export const login = async (req, res) => {
         res.json({ success: false, message: "Email and Password are required" });
 
     }
-
+consol.log("outside");
     try {
+        consol.log("inside");
 
         const user = await userModel.findOne({ email });
 
