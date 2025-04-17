@@ -3,13 +3,14 @@ import { assets } from '../assets/assets'
 import {AppContext} from '../context/AppContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const EmailVerify = () => {
 
   axios.defaults.withCredentials = true;
 
 
-  const {backendUrl,isLoggedin,userData ,getUserdata} = useContext(AppContext);
+  const {backendUrl,isLoggedin,userData ,getUserData} = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -49,7 +50,7 @@ const EmailVerify = () => {
 
       if(data.success){
         toast.success(data.message);
-        getUserdata();
+        getUserData();
         navigate('/');
       }
       else{

@@ -114,7 +114,6 @@ export const sendVerifyOtp = async (req, res) => {
 
     try {
         const { userId } = req.body;
-        console.log(userId)
 
         const user = await userModel.findById(userId)
 
@@ -147,41 +146,49 @@ export const sendVerifyOtp = async (req, res) => {
 }
 
 
-export const verifyEmail = async (req,res)=>{
-    const {userId,otp} = req.body;
+export const verifyEmail = async (req, res) => {
+    const { userId, otp } = req.body;
 
     if (!userId || !otp) {
-        res.json({success:false,message:"Missing Details"})
+        return res.status(400).json({ success: false, message: "Missing Details" });
     }
+
     try {
-        console.log("hey")
         const user = await userModel.findById(userId);
-
-        if(!user){
-            res.json({success:false,message:"User not found"});
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found"});
         }
 
-        if (user.verifyOtp === '' || user.verifyOtp!= otp) {
-            res.json({success:false ,message:'Invalid OTP'})
+        if (!user.verifyOtp || user.verifyOtp !== otp) {
+            return res.status(400).json({ success: false, message: 'Invalid OTP' });
         }
 
-        if (user.verifyOtpExpireAt < Date.now()) {
-            res.json({success:false,message:'OTP Expired'})
+        if (new Date(user.verifyOtpExpireAt).getTime() < Date.now()) {
+            return res.status(400).json({ success: false, message: 'OTP Expired' });
         }
 
         user.isAccountVerified = true;
         user.verifyOtp = '';
         user.verifyOtpExpireAt = 0;
-
         await user.save();
-        return res.json({success:true,message:'Email verified successfully'})
 
+        return res.status(200).json({
+            success: true,
+            message: 'Email verified successfully',
+            data: {
+              userId: user._id,
+              email: user.email,
+              isAccountVerified: user.isAccountVerified
+            }
+          });
+          
 
     } catch (error) {
-        res.json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message, data: null });
     }
+};
 
-}
+
 
 // cheak user is authenticated
 export const isAuthenticated = async (req,res)=>{
